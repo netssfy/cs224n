@@ -60,6 +60,14 @@ def naiveSoftmaxLossAndGradient(
     """
 
     ### YOUR CODE HERE (~6-8 Lines)
+    # word vector length = k, num of words = n, outsideVectors = (n, k)
+    y_hat = softmax(outsideVectors @ centerWordVec) # (n,)
+    delta = y_hat.copy() # (n,)
+    delta[outsideWordIdx] -= 1
+
+    loss = -np.log(y_hat[outsideWordIdx]) # scalar
+    gradCenterVec = delta @ outsideVectors #(,k)
+    gradOutsideVecs = delta[:, np.newaxis] @ centerWordVec[np.newaxis, :]
 
     ### Please use the provided softmax function (imported earlier in this file)
     ### This numerically stable implementation helps you avoid issues pertaining
